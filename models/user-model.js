@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 
 const user = new mongoose.Schema({
+  active: {type: Boolean},
+  activation_code: {type: String},
   email: {type: String, unique: true},
   password: {type: String},
   token: {type: String},

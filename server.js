@@ -6,19 +6,13 @@ const mongoose = require("mongoose");
 
 const userRoutes = require("./middleware/user-routes.js")
 const User = require("./models/user-model.js")
+const db = require("./database.js")
 
 const TOKEN_HASH = process.env.TOKEN_HASH;
+const DB_URI = process.env.DB_URI;
 
-//connect to db
-mongoose
-  .connect(process.env.DB_URI)
-  .then(() => {
-    console.log("DB connected");
-  })
-  .catch((err) => {
-    console.log("DB connection failed: error " + err);
-    process.exit(1);
-  })
+//connect to mongodb
+db.connect(DB_URI);
 
 const app = express();
 app.use(express.json());

@@ -3,6 +3,10 @@ const express = require('express');
 const bcrypt = require("bcryptjs");
 const userRouter = express.Router();
 const jwt = require("jsonwebtoken");
+const crytpo = require('crypto');
+const nodemailer = require('nodemailer');
+
+
 const TOKEN_HASH = process.env.TOKEN_HASH;
 
 const User = require("../models/user-model.js")
@@ -30,9 +34,15 @@ userRouter.post('/user/register', async (req, res) => {
       email,
       password
     } = req.body;
+    email = email.toLowerCase();
 
     if (!(email && password)) {
       res.status(400).send("Register input not complete {email,pword}");
+    }
+
+    const em = email.split('@');
+    if(em[1] != 'utdallas.edu'){
+      res.status(400).send("utdallas.edu email required");
     }
 
     //User already exists. 409 conflict with target resource
@@ -51,8 +61,12 @@ userRouter.post('/user/register', async (req, res) => {
       email: email
     }, TOKEN_HASH);
 
+    //send Activation Email
+    sendActivationEmail(email);
     //Save user
     const user = await User.create({
+      active: false,
+      activation_code: activationCode,
       email: email.toLowerCase(),
       password: hashedPword,
       token: token,
@@ -64,7 +78,21 @@ userRouter.post('/user/register', async (req, res) => {
     res.status(500).send(err);
   }
 })
-//
+
+userRouter.get("/activate/:code", async(req,res) => {
+    try {
+      const activationCode = req.params.code;
+      const user = await User.findOne({activationCode});
+      user.active = true;
+      user.save();
+      res.status(200).send("User activated");
+    } catch (e) {
+      console.log("User activation error: "+e);
+      res.status(500).send("User activation failed");
+    }
+})
+
+
 userRouter.post("/login", async (req, res) => {
   try {
     console.log("New login from: " + req.body.email);
@@ -162,3 +190,36 @@ userRouter.post('/new-rider', async (req, res) => {
 });
 
 module.exports = userRouter;
+
+
+
+
+async function sendActivationEmail(email){
+  const activationCode = await crypto.randomBytes(128)
+  .toString('hex')
+  .slice(0,128);
+  const verifyMessage = `Click the link to verify: https://ride-2gether.herokuapp.com/user/activate/${activationCode}`
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'ride2getherutd@gmail.com',
+      pass: 'Switzerland123!'
+    }
+  });
+
+  const mailOptions = {
+    from: 'ride2getherUTD@gmail.com',
+    to: email,
+    subject: 'Verify your Ride-2gether account!',
+    text: verifyMessage
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
