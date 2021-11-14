@@ -104,12 +104,17 @@ userRouter.post("/login", async (req, res) => {
 
     //password is correct
     if (correctPassword) {
-      const token = jwt.sign({
-        email: email
-      }, TOKEN_HASH);
+
+      const tokenOptions = JSON.stringify({
+        email: email,
+        iat: Math.floor(Date.now() / 1000) - 30,
+        exp: Math.floor(Date.now() / 1000) + (60 * 60),
+      })
+      const token = jwt.sign(tokenOptions, TOKEN_HASH);
       user.token = token;
       user.save(); //Adds token to user record in DB
-      res.status(200).json(token);
+      res.status(200).json(token).end();
+      res.end();
     } else {
       //password is incorrect
       res.status(400).send("Wrong password").end();
