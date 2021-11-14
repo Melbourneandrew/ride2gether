@@ -1,5 +1,15 @@
+CHANGE:
 1) Removed JWT auth middleware from all functions
 
 2) Removed check from register route to check for UTD Email
 
 3) Set 'active' to true by default for all new users in mongoose schema.
+
+NOTE:
+
+Push to heroku:
+$ git push heroku master
+
+Push to github:
+$ git rm --cached .env
+$ git push github main
