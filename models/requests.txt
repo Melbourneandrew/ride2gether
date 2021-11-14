@@ -1,0 +1,50 @@
+*USER ROUTES*
+/user/register (rider)
+{"email":"noone@gmail.com","password":"switzerland"}
+{"email":"someone@gmail.com","password":"switzerland"}
+{"email":"someoneelse@gmail.com","password":"switzerland"}
+{"email":"sid@gmail.com","password":"switzerland"}
+
+
+/user/register (driver)
+{"email":"melbourneandrew@gmail.com", "password":"switzerland"}
+{"email":"katieantala@gmail.com", "password":"switzerland"}
+{"email":"amm180033@utdallas.edu", "password":"switzerland"}
+
+
+/user/new-rider
+{"email":"someone@gmail.com", "first_name":"Sarah", "last_name":"Jefferies"}
+{"email":"someoneelse@gmail.com", "first_name":"Nathan", "last_name":"Raya"}
+{"email":"noone@gmail.com", "first_name":"Annakin", "last_name":"Skywalker"}
+{"email":"sid@gmail.com", "first_name":"James", "last_name":"Obidi"}
+
+/user/new-driver
+{"first_name":"Andrew","last_name":"Melbourne","dl_number":"123456789","lp_number":"HWY-783","car":"Toyota Camry","email":"melbourneandrew@gmail.com"}
+{"first_name":"Katie","last_name":"Antala","dl_number":"987654321","lp_number":"DMT-356","car":"Porshe Cayanne","email":"katieantala@gmail.com"}
+{"first_name":"Kevin","last_name":"Melby","dl_number":"987654321","lp_number":"QST-222","car":"Tesla Model S","email":"amm180033@utdallas.edu"}
+
+*POST ROUTES*
+/post/make-post (driver)
+{"email":"amm180033@utdallas.edu","note":"Going to Golden Chick","pickup":"ECSW","dropoff":"Golden chick","gas_money":"3","date":"Tuesday @ 11:00PM"}
+{"email":"melbourneandrew@gmail.com","note":"Going to Walmart!","pickup":"Northside","dropoff":"Walmart","gas_money":"1","date":"Wednesday @ 3:30PM"}
+
+/post/make-post (rider)
+{"email":"someone@gmail.com","note":"Need a ride to campus","pickup":"Est. of Richardson","dropoff":"JSOM","gas_money":"2","date":"Monday @ 8:00AM"}
+{"email":"someoneelse@gmail.com","note":"Yummy tendies","pickup":"Northside","dropoff":"Canes","gas_money":"4","date":"Wednesday @ 8:00PM"}
+{"email":"noone@gmail.com","note":"Not sick! Just a checkup.","pickup":"ATEC","dropoff":"Richardson Medical","gas_money":"4","date":"Wednesday @ 1:10PM"}
+{"email":"noone@gmail.com","note":"Class Friday morning :P","pickup":"Canyon Creek","dropoff":"Richardson Medical","gas_money":"4","date":"Wednesday @ 1:10PM"}
+{"email":"sid@gmail.com","note":"NEED AIRPORT LIFT","pickup":"UV","dropoff":"DFW Airport","gas_money":"5","date":"Saturday @ 11:00AM"}
+
+/post/get-post (rider)
+{"email":"someone@gmail.com"}
+
+/post/get-post (driver)
+{"email":"melbourneandrew@gmail.com"}
+
+/post/confirm-ride
+(specific testing for driver and rider)
+{"email":email, "postID":"postID"}
+
+/post/delete-post
+(specific testing for driver and rider)
+{"email":email, "postID":"postID"}

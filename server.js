@@ -4,7 +4,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
-const userRoutes = require("./middleware/user-routes.js")
+const userRouter = require("./routes/user-routes.js")
+const postRouter = require("./routes/post-routes.js")
 const User = require("./models/user-model.js")
 const db = require("./database.js")
 
@@ -16,7 +17,10 @@ db.connect(DB_URI);
 
 const app = express();
 app.use(express.json());
-app.use('/user', userRoutes)
+//Routes for user registration, login, and designating driver and rider information
+app.use('/user', userRouter);
+//Users interacting with posts. Includes making, getting, deleting,
+app.use('/post', postRouter);
 
 
 var port = process.env.PORT;
