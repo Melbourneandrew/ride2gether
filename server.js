@@ -3,6 +3,8 @@ const express = require('express');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+const cors = require('cors')
+
 
 const userRouter = require("./routes/user-routes.js")
 const postRouter = require("./routes/post-routes.js")
@@ -17,6 +19,7 @@ db.connect(DB_URI);
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 //Routes for user registration, login, and designating driver and rider information
 app.use('/user', userRouter);
 //Users interacting with posts. Includes making, getting, deleting,
