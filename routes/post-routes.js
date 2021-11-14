@@ -69,7 +69,7 @@ postRouter.post('/delete-post', async (req,res) =>{
   }
 })
 
-postRouter.get('/get-posts', async(req,res)=>{
+postRouter.post('/get-posts', async(req,res)=>{
   try {
     const viewer = {
       email: req.body.email,
